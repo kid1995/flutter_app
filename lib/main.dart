@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutterapp/map_module.dart';
 import 'package:flutterapp/mapbox_direction.dart';
+import 'package:flutterapp/smart_bin_service.dart';
 import 'package:latlong/latlong.dart';
+import 'package:flutterapp/smart_bin.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -36,14 +38,22 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   var routePoints = <LatLng>[];
+  var sensorList = <SmartBin>[];
 
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
+    SmartBinService().fetchSmartBin().then((value) => setState((){
+      sensorList = value;
+      print("Sensor-List");
+      print(sensorList);
+    }));
     fetchRoutes( http.Client(), points,Coordinate(10.029130,53.553780 ), Coordinate(10.024580, 53.728890)).then((res) => setState(() {
       routePoints = res.getPolyline();
     }) );
+
   }
 
   @override
