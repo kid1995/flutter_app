@@ -1,37 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutterapp/map_module.dart';
 import 'package:flutterapp/mapbox_direction.dart';
 import 'package:latlong/latlong.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'module.dart';
-
-
-void main() => runApp(new MyApp());
-
-class MyApp extends StatelessWidget {
+class MapWidget extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new MyHomePage(),
-        routes: {
-          Map.routeName: (context) => Module(
-              'Map ', Map.children, Map.botNavButton),
-        }
-    );
-  }
+  _MapWidgetState createState() => new _MapWidgetState();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
+class _MapWidgetState extends State<MapWidget> {
 
-class _MyHomePageState extends State<MyHomePage> {
-
-  var points = <Coordinate>[
+  var wayPoints = <Coordinate>[
     new Coordinate(9.991650, 53.553841),
   ];
 
@@ -41,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchRoutes( http.Client(), points,Coordinate(10.029130,53.553780 ), Coordinate(10.024580, 53.728890)).then((res) => setState(() {
+    fetchRoutes( http.Client(), wayPoints,Coordinate(10.029130,53.553780 ), Coordinate(10.024580, 53.728890)).then((res) => setState(() {
       routePoints = res.getPolyline();
     }) );
   }
@@ -52,15 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
         appBar: new AppBar(title: new Text('Ad-Hoc Map')),
         body:
-      /*  RaisedButton(
-          child: Text("Map"),
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              Map.routeName,
-            );
-          },
-        )*/
         new FlutterMap(
             options: new MapOptions(
                 center:  LatLng(53.553780 , 10.029130), minZoom: 5.0),

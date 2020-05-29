@@ -27,6 +27,7 @@ dependencies:
   url_launcher: 5.4.10
   http: 0.12.1
   flutter_map:
+  polyline: 1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
